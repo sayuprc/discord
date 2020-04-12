@@ -80,7 +80,7 @@ client.on('message', message => {
 client.on('messageReactionAdd', async(reaction, user) => {
 	if(user.username === 'simple_vote') return;
 
-	message = reaction.message;
+	let message = reaction.message;
 	let exists_flg = false;
 
 	// オブジェクト内に既にあるか あればtrue
@@ -88,10 +88,15 @@ client.on('messageReactionAdd', async(reaction, user) => {
 		for(let [i, list] of vote_lists.entries()) {
 			// user.idとmessage.idの組み合わせが既にある場合
 			if(list.user_id == user.id && list.message_id == message.id) {
-				exists_flg = true;
-				await vote_lists.splice(i, 1);
-				reaction.users.count -= 1;
-				break;
+				vote_lists.splice(i, 1);
+				// exists_flg = true;
+				// vote_lists.splice(i, 1);
+				// reaction.users.remove();
+				const userReactions = message.reactions.cache.filter(reaction => reaction.users.cache.has(user.id));
+				for(const last_reaction of userReactions.values()) {
+					if(reaction.emoji.name == last_reaction.emoji.name) continue;
+					last_reaction.users.remove(user.id);
+				}
 			}
 		}
 	}
@@ -99,28 +104,27 @@ client.on('messageReactionAdd', async(reaction, user) => {
 	let obj = {
 		user_id: user.id,
 		message_id: message.id,
-		reaction: reaction.emoji,
+		reaction: reaction.emoji.name,
 	};
-	let len = vote_lists.length;
-	vote_lists[len] = obj;
+	vote_lists[vote_lists.length] = obj;
 
+console.log(vote_lists);
+console.log('----------------------------------------');
 	return;
 });
 
 client.on('messageReactionRemove', async(reaction, user) => {
 	if(user.username === 'simple_vote') return;
-/*
-	message = reaction.message;
+
+	let message = reaction.message;
 
 	for(let [index, list] of vote_lists.entries()) {
 		if(list.user_id == user.id && list.message_id == message.id && list.reaction == reaction.emoji) {
-			await reaction.user.remove(user.id);
-			await vote_lists.splice(index, 1);
+			vote_lists.splice(index, 1);
 		}
 	}
-*/
-	return;
 
+	return;
 });
 
 // 値が空か判定 空はtrue
