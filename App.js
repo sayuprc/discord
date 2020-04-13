@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const token = 'Njk4NjA2MjY1Nzc3MTI3NDk0.XpIR4w.AK0aQDvbaiTLb7oACjvD12Y9X14';
 // データ配列
 let vote_lists = [];
 // リアクションの絵文字
@@ -147,4 +146,4 @@ function isEmpty(val) {
 	return false;
 }
 
-client.login(token);
+client.login(process.env.BOT_TOKEN);
