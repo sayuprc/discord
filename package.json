@@ -1,0 +1,23 @@
+{
+  "name": "discordbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^12.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sayuprc/discord.git"
+  },
+  "author": "sayu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sayuprc/discord/issues"
+  },
+  "homepage": "https://github.com/sayuprc/discord#readme"
+}
